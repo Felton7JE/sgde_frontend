@@ -64,6 +64,3 @@ assets/                      # Imagens e recursos estáticos
 
 Pull requests são bem-vindos! Para sugestões, correções ou melhorias, abra uma issue ou envie seu PR.
 
-## Licença
-
-Este projeto é de uso interno do CETIC. Para uso externo, consulte a equipe responsável.
