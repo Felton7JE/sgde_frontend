@@ -330,7 +330,300 @@ class _ManutencaoEquipamentoScreenState
 
   @override
   Widget build(BuildContext context) {
-    // Implemente o build normalmente aqui
-    return Container(); // Exemplo de retorno válido
+    return Consumer2<ManutencaoProvider, EquipamentoProvider>(
+      builder: (context, manutencaoProvider, equipamentoProvider, child) {
+        if (manutencaoProvider.isLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (manutencaoProvider.erro != null) {
+          return Center(child: Text('Erro: ${manutencaoProvider.erro}'));
+        }
+        // Contagens por status reais conforme valores existentes no banco
+        final statusList = manutencaoProvider.manutencoes.map((e) => (e.status ?? '').toLowerCase()).toList();
+        final total = manutencaoProvider.manutencoes.length;
+        final emManutencao = statusList.where((s) => s == 'em manutencao' || s == 'em manutenção').length;
+        final aguardandoPecas = statusList.where((s) => s == 'aguardando pecas' || s == 'aguardando peças').length;
+        final concluido = statusList.where((s) => s == 'concluido' || s == 'concluído').length;
+        return Scaffold(
+          backgroundColor: scaffoldBackgroundColor,
+          body: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // Cards
+                Wrap(
+                  spacing: 16.0,
+                  runSpacing: 16.0,
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.width > 600 ? 4 : 1),
+                      child: Cards(
+                        title: 'Total em Manutenção',
+                        value: total.toString(),
+                        icon: Icons.build,
+                      ),
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.width > 600 ? 4 : 1),
+                      child: Cards(
+                        title: 'Em manutenção',
+                        value: emManutencao.toString(),
+                        icon: Icons.settings,
+                      ),
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.width > 600 ? 4 : 1),
+                      child: Cards(
+                        title: 'Aguardando peças',
+                        value: aguardandoPecas.toString(),
+                        icon: Icons.hourglass_empty,
+                      ),
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.width > 600 ? 4 : 1),
+                      child: Cards(
+                        title: 'Concluído',
+                        value: concluido.toString(),
+                        icon: Icons.check_circle,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                // Filtros avançados
+                Card(
+                  margin: const EdgeInsets.only(bottom: 16),
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Wrap(
+                      spacing: 16,
+                      runSpacing: 8,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: 180,
+                          child: DropdownButtonFormField<String>(
+                            value: filtroStatus,
+                            decoration: const InputDecoration(labelText: 'Status'),
+                            items: const [
+                              DropdownMenuItem(value: '', child: Text('Todos')),
+                              DropdownMenuItem(value: 'Em manutenção', child: Text('Em manutenção')),
+                              DropdownMenuItem(value: 'Aguardando peças', child: Text('Aguardando peças')),
+                              DropdownMenuItem(value: 'Concluído', child: Text('Concluído')),
+                              DropdownMenuItem(value: 'Danificado', child: Text('Danificado')),
+                              DropdownMenuItem(value: 'Cancelado', child: Text('Cancelado')),
+                            ],
+                            onChanged: (v) => setState(() => filtroStatus = v),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 180,
+                          child: DropdownButtonFormField<String>(
+                            value: filtroTipo,
+                            decoration: const InputDecoration(labelText: 'Tipo de Manutenção'),
+                            items: const [
+                              DropdownMenuItem(value: '', child: Text('Todos')),
+                              DropdownMenuItem(value: 'Manutenção Corretiva', child: Text('Corretiva')),
+                              DropdownMenuItem(value: 'Manutenção Preventiva', child: Text('Preventiva')),
+                              DropdownMenuItem(value: 'Manutenção Preditiva', child: Text('Preditiva')),
+                              DropdownMenuItem(value: 'Manutenção Detectiva', child: Text('Detectiva')),
+                              DropdownMenuItem(value: 'Manutenção Proativa', child: Text('Proativa')),
+                            ],
+                            onChanged: (v) => setState(() => filtroTipo = v),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 160,
+                          child: GestureDetector(
+                            onTap: () async {
+                              final picked = await showDatePicker(
+                                context: context,
+                                initialDate: filtroData ?? DateTime.now(),
+                                firstDate: DateTime(2000),
+                                lastDate: DateTime(2100),
+                              );
+                              if (picked != null) setState(() => filtroData = picked);
+                            },
+                            child: AbsorbPointer(
+                              child: TextField(
+                                decoration: InputDecoration(
+                                  labelText: 'Data',
+                                  hintText: 'YYYY-MM-DD',
+                                ),
+                                controller: TextEditingController(
+                                  text: filtroData != null ? filtroData!.toIso8601String().substring(0, 10) : '',
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 180,
+                          child: TextField(
+                            decoration: const InputDecoration(labelText: 'Responsável'),
+                            onChanged: (v) => setState(() => filtroResponsavel = v),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 220,
+                          child: TextField(
+                            decoration: const InputDecoration(labelText: 'Buscar...'),
+                            onChanged: (v) => setState(() => filtroBusca = v),
+                          ),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.clear),
+                          tooltip: 'Limpar filtros',
+                          onPressed: () => setState(() {
+                            filtroStatus = null;
+                            filtroTipo = null;
+                            filtroData = null;
+                            filtroResponsavel = null;
+                            filtroBusca = '';
+                          }),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: CustomTable(
+                      headers: [
+                        TableHeader(
+                            text: 'Número de Série', alignment: TextAlign.left),
+                        TableHeader(
+                            text: 'Nome do Equipamento',
+                            alignment: TextAlign.left),
+                        TableHeader(
+                            text: 'Tipo de Manutenção',
+                            alignment: TextAlign.left),
+                        TableHeader(text: 'Data', alignment: TextAlign.center),
+                        TableHeader(
+                            text: 'Descrição', alignment: TextAlign.left),
+                        TableHeader(
+                            text: 'Responsável', alignment: TextAlign.left),
+                        TableHeader(
+                            text: 'Status', alignment: TextAlign.center),
+                        TableHeader(
+                            text: 'Ação', alignment: TextAlign.center),
+                      ],
+                      allRows: _aplicarFiltros(manutencaoProvider.manutencoes)
+                          .whereType<ManutencaoDTO>()
+                          .map((m) {
+                        final equipamento =
+                            equipamentoProvider.equipamentos.firstWhere(
+                          (e) => e.numeroSerie == m.numeroSerie,
+                          orElse: () => Equipamento(
+                              nome: '-', numeroSerie: m.numeroSerie),
+                        );
+                        return TableRowData(cells: [
+                          TableCellData(
+                              text: m.numeroSerie, alignment: TextAlign.left),
+                          TableCellData(
+                              text: equipamento.nome,
+                              alignment: TextAlign.left),
+                          TableCellData(
+                              text: m.tipoManutencao,
+                              alignment: TextAlign.left),
+                          TableCellData(
+                              text: m.dataManutencao
+                                  .toIso8601String()
+                                  .substring(0, 10),
+                              alignment: TextAlign.center),
+                          TableCellData(
+                              text: m.descricaoManutencao,
+                              alignment: TextAlign.left),
+                          TableCellData(
+                              text: m.responsavel, alignment: TextAlign.left),
+                          TableCellData(
+                            alignment: TextAlign.center,
+                            widget: DropdownButton<String>(
+                              value: () {
+                                final statusBanco = (m.status ?? '').trim().toLowerCase().replaceAll('ç', 'c').replaceAll('ã', 'a').replaceAll('á', 'a').replaceAll('é', 'e').replaceAll('í', 'i').replaceAll('ó', 'o').replaceAll('ú', 'u');
+                                if (statusBanco == 'em manutencao' || statusBanco == 'em manutenção') return 'Em manutenção';
+                                if (statusBanco == 'aguardando pecas' || statusBanco == 'aguardando peças') return 'Aguardando peças';
+                                if (statusBanco == 'concluido' || statusBanco == 'concluído') return 'Concluído';
+                                if (statusBanco == 'danificado') return 'Danificado';
+                                if (statusBanco == 'cancelado') return 'Cancelado';
+                                return 'Em manutenção';
+                              }(),
+                              items: const [
+                                DropdownMenuItem(value: 'Em manutenção', child: Text('Em manutenção')),
+                                DropdownMenuItem(value: 'Aguardando peças', child: Text('Aguardando peças')),
+                                DropdownMenuItem(value: 'Concluído', child: Text('Concluído')),
+                                DropdownMenuItem(value: 'Danificado', child: Text('Danificado')),
+                                DropdownMenuItem(value: 'Cancelado', child: Text('Cancelado')),
+                              ],
+                              onChanged: (String? newStatus) async {
+                                if (newStatus != null && newStatus != m.status) {
+                                  final provider = Provider.of<ManutencaoProvider>(context, listen: false);
+                                  // Enviar todos os campos obrigatórios ao atualizar
+                                  final atualizado = ManutencaoDTO(
+                                    numeroSerie: m.numeroSerie,
+                                    tipoManutencao: m.tipoManutencao,
+                                    dataManutencao: m.dataManutencao,
+                                    descricaoManutencao: m.descricaoManutencao,
+                                    responsavel: m.responsavel,
+                                    status: newStatus,
+                                    tempoInatividade: m.tempoInatividade,
+                                  );
+                                  await provider.atualizarManutencaoDTO(atualizado);
+                                }
+                              },
+                            ),
+                          ),
+                          TableCellData(
+                            alignment: TextAlign.center,
+                            widget: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                IconButton(
+                                  icon: const Icon(Icons.edit, color: Colors.blue),
+                                  tooltip: 'Editar',
+                                  onPressed: () => _showForm(manutencao: m),
+                                ),
+                                IconButton(
+                                  icon: const Icon(Icons.delete, color: Colors.red),
+                                  tooltip: 'Remover',
+                                  onPressed: () => _confirmDelete(context, m),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ]);
+                      }).toList(),
+                      rowsPerPage: 5,
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 16.0),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: canvasColor,
+                        foregroundColor: white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 16.0, horizontal: 24.0),
+                        elevation: 4,
+                      ),
+                      onPressed: () => _showForm(),
+                      child: const Text('Nova Manutenção',
+                          style: TextStyle(fontSize: 16)),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }

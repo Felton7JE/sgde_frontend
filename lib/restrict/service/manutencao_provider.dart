@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:cetic_sgde_front/restrict/service/manutencao_service.dart';
+import 'package:cetic_sgde_front/restrict/service/mock_manutencao_service.dart';
 import 'package:cetic_sgde_front/restrict/models/manutencao_dto.dart';
 
 class ManutencaoProvider extends ChangeNotifier {
-  final ManutencaoService _service = ManutencaoService();
+  final MockManutencaoService _service = MockManutencaoService();
   List<ManutencaoDTO> _manutencoes = [];
   bool _isLoading = false;
   String? _erro;

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cetic_sgde_front/restrict/models/modelEquipamento.dart';
-import 'package:cetic_sgde_front/restrict/service/equipamento_service.dart'; // Corrigido o caminho se necessário
+import 'package:cetic_sgde_front/restrict/service/mock_equipamento_service.dart';
 
 class EquipamentoProvider extends ChangeNotifier {
-  final EquipamentoService _service = EquipamentoService();
+  final MockEquipamentoService _service = MockEquipamentoService();
   List<Equipamento> _equipamentos = [];
   Equipamento? _equipamentoSelecionado; // Para o resultado de buscarPorNumeroSerie
   bool _isLoading = false;

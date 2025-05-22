@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:cetic_sgde_front/restrict/service/avaria_service.dart';
+import 'package:cetic_sgde_front/restrict/service/mock_avaria_service.dart';
 import 'package:cetic_sgde_front/restrict/models/avaria_dto.dart';
 
 class AvariaProvider extends ChangeNotifier {
-  final AvariaService _service = AvariaService();
+  final MockAvariaService _service = MockAvariaService();
   List<AvariaDTO> _avarias = [];
   bool _isLoading = false;
   String? _erro;

@@ -11,6 +11,7 @@ import 'package:cetic_sgde_front/auth/models/twofactor.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -25,6 +26,14 @@ class _LoginPageState extends State<LoginPage> {
   final _passwordController = TextEditingController();
   bool _obscureText = true;
   bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Preenche campos com valores padrão para facilitar testes
+    _emailController.text = 'admin@admin.com';
+    _passwordController.text = '123456';
+  }
 
   @override
   void dispose() {
@@ -177,16 +186,19 @@ class _LoginPageState extends State<LoginPage> {
                                                 setState(() {
                                                   _isLoading = true;
                                                 });
-                                                final credenciais = LoginCredenciaisModel(
-                                                  email: _emailController.text,
-                                                  senha: _passwordController.text,
-                                                );
                                                 try {
-                                                  await Provider.of<AuthProvider>(context, listen: false).login(credenciais);
-                                                  Navigator.pushReplacement(
-                                                    context,
-                                                    MaterialPageRoute(builder: (context) => const TwoFactorPage()),
-                                                  );
+                                                  final prefs = await SharedPreferences.getInstance();
+                                                  final savedEmail = prefs.getString('usuario_email');
+                                                  final savedSenha = prefs.getString('usuario_senha');
+                                                  if (_emailController.text == savedEmail && _passwordController.text == savedSenha) {
+                                                    // Login local OK
+                                                    Navigator.pushReplacement(
+                                                      context,
+                                                      MaterialPageRoute(builder: (context) => const TwoFactorPage()),
+                                                    );
+                                                  } else {
+                                                    throw Exception('Email ou senha inválidos (cache local)');
+                                                  }
                                                 } catch (e) {
                                                   ScaffoldMessenger.of(context).showSnackBar(
                                                     SnackBar(content: Text(e.toString()), backgroundColor: Colors.red),
@@ -341,16 +353,19 @@ class _LoginPageState extends State<LoginPage> {
                                             setState(() {
                                               _isLoading = true;
                                             });
-                                            final credenciais = LoginCredenciaisModel(
-                                              email: _emailController.text,
-                                              senha: _passwordController.text,
-                                            );
                                             try {
-                                              await Provider.of<AuthProvider>(context, listen: false).login(credenciais);
-                                              Navigator.pushReplacement(
-                                                context,
-                                                MaterialPageRoute(builder: (context) => const TwoFactorPage()),
-                                              );
+                                              final prefs = await SharedPreferences.getInstance();
+                                              final savedEmail = prefs.getString('usuario_email');
+                                              final savedSenha = prefs.getString('usuario_senha');
+                                              if (_emailController.text == savedEmail && _passwordController.text == savedSenha) {
+                                                // Login local OK
+                                                Navigator.pushReplacement(
+                                                  context,
+                                                  MaterialPageRoute(builder: (context) => const TwoFactorPage()),
+                                                );
+                                              } else {
+                                                throw Exception('Email ou senha inválidos (cache local)');
+                                              }
                                             } catch (e) {
                                               ScaffoldMessenger.of(context).showSnackBar(
                                                 SnackBar(content: Text(e.toString()), backgroundColor: Colors.red),

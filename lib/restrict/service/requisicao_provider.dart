@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'requisicao_service.dart';
+import 'package:cetic_sgde_front/restrict/service/mock_requisicao_service.dart';
 import '../models/requisicao_dto.dart';
 
 class RequisicaoProvider extends ChangeNotifier {
-  final RequisicaoService _service = RequisicaoService();
+  final MockRequisicaoService _service = MockRequisicaoService();
   List<RequisicaoDTO> _requisicoes = [];
   bool _isLoading = false;
   String? _erro;

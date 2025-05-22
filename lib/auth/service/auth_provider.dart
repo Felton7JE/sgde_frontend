@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:cetic_sgde_front/auth/models/login.dart';
-import 'package:cetic_sgde_front/auth/models/twofactor.dart';
 import 'package:cetic_sgde_front/auth/models/cadastro.dart';
-import 'package:cetic_sgde_front/auth/service/auth.dart';
+import 'package:cetic_sgde_front/auth/service/mock_auth_service.dart';
 
 class AuthProvider extends ChangeNotifier {
-  String? _tempToken;
-  String? _finalToken;
+  final MockAuthService _mockAuthService = MockAuthService();
   bool _isLoading = false;
-  final AuthService _authService = AuthService();
 
-  String? get tempToken => _tempToken;
-  String? get finalToken => _finalToken;
   bool get isLoading => _isLoading;
 
   Future<String> registrarUsuario(UsuarioCadastroModel usuario) async {
     _isLoading = true;
     notifyListeners();
     try {
-      return await _authService.registrarUsuario(usuario);
+      final sucesso = await _mockAuthService.cadastrar(usuario);
+      if (sucesso) {
+        return 'Usuário cadastrado com sucesso (simulado)';
+      } else {
+        throw Exception('Erro ao cadastrar usuário (simulado)');
+      }
     } finally {
       _isLoading = false;
       notifyListeners();
@@ -29,32 +29,21 @@ class AuthProvider extends ChangeNotifier {
     _isLoading = true;
     notifyListeners();
     try {
-      final accessToken = await _authService.login(credenciais);
-      _tempToken = accessToken.token;
+      final sucesso = await _mockAuthService.login(credenciais);
+      if (!sucesso) {
+        throw Exception('Usuário ou senha inválidos (simulado)');
+      }
     } finally {
       _isLoading = false;
       notifyListeners();
     }
   }
 
-  Future<void> verificar2FA(TwoFactorAuthModel twoFactorAuth) async {
-    if (_tempToken == null) {
-      throw Exception('Token temporário não encontrado. Faça login primeiro.');
-    }
-    _isLoading = true;
-    notifyListeners();
-    try {
-      final finalTokenModel = await _authService.verificarCodigo2FA(twoFactorAuth, tempToken: _tempToken);
-      _finalToken = finalTokenModel.token;
-    } finally {
-      _isLoading = false;
-      notifyListeners();
-    }
+  Future<void> verificar2FA(dynamic _) async {
+    return;
   }
 
   void logout() {
-    _tempToken = null;
-    _finalToken = null;
     notifyListeners();
   }
 }

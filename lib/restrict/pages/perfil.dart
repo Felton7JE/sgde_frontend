@@ -16,6 +16,7 @@ class _PerfilPageState extends State<PerfilPage> {
   String? _nome;
   String? _email;
   String? _contato;
+  String? _senha;
   bool _isLoading = true;
 
   @override
@@ -31,6 +32,7 @@ class _PerfilPageState extends State<PerfilPage> {
       _nome = prefs.getString('usuario_nome') ?? 'Usuário';
       _email = prefs.getString('usuario_email') ?? 'Email não disponível';
       _contato = prefs.getString('usuario_contato') ?? '-';
+      _senha = prefs.getString('usuario_senha') ?? '-';
       _isLoading = false;
     });
   }
@@ -76,20 +78,24 @@ class _PerfilPageState extends State<PerfilPage> {
                         style: GoogleFonts.poppins(fontSize: 22, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 8),
-                      Text(_email ?? '', style: GoogleFonts.poppins(fontSize: 16)),
+                      Text(
+                        _email ?? '',
+                        style: GoogleFonts.poppins(fontSize: 16),
+                      ),
                       const SizedBox(height: 8),
                       Text('Contato: ${_contato ?? '-'}', style: GoogleFonts.poppins(fontSize: 16)),
+                      const SizedBox(height: 8),
+                      Text('Senha: ${_senha ?? '-'}', style: GoogleFonts.poppins(fontSize: 16)),
                       const SizedBox(height: 24),
                       SizedBox(
                         width: double.infinity,
-                        child: ElevatedButton.icon(
+                        child: ElevatedButton(
                           onPressed: _logout,
-                          icon: const Icon(Icons.logout),
-                          label: const Text('Sair'),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.red,
                             foregroundColor: Colors.white,
                           ),
+                          child: const Text('Sair'),
                         ),
                       ),
                     ],

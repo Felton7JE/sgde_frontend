@@ -1,9 +1,9 @@
 import 'package:cetic_sgde_front/restrict/models/alocacao_dto.dart';
 import 'package:flutter/material.dart';
-import 'package:cetic_sgde_front/restrict/service/alocacao_service.dart';
+import 'package:cetic_sgde_front/restrict/service/mock_alocacao_service.dart';
 
 class AlocacaoProvider extends ChangeNotifier {
-  final AlocacaoService _service = AlocacaoService();
+  final MockAlocacaoService _service = MockAlocacaoService();
   List<AlocacaoDTO> _alocacoes = [];
   bool _isLoading = false;
   String? _erro;

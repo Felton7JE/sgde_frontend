@@ -8,6 +8,7 @@ import 'package:cetic_sgde_front/auth/service/auth_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CadastroPage extends StatefulWidget {
   const CadastroPage({Key? key}) : super(key: key);
@@ -249,6 +250,12 @@ class _CadastroPageState extends State<CadastroPage> {
                                                   contato: _contatoController.text,
                                                 );
                                                 try {
+                                                  // Salva dados no cache local
+                                                  final prefs = await SharedPreferences.getInstance();
+                                                  await prefs.setString('usuario_nome', _nomeController.text);
+                                                  await prefs.setString('usuario_email', _emailController.text);
+                                                  await prefs.setString('usuario_contato', _contatoController.text);
+                                                  await prefs.setString('usuario_senha', _passwordController.text); // Salva a senha também
                                                   final msg = await Provider.of<AuthProvider>(context, listen: false).registrarUsuario(usuario);
                                                   ScaffoldMessenger.of(context).showSnackBar(
                                                     SnackBar(content: Text(msg), backgroundColor: Colors.green),
@@ -438,6 +445,12 @@ class _CadastroPageState extends State<CadastroPage> {
                                               contato: _contatoController.text,
                                             );
                                             try {
+                                              // Salva dados no cache local
+                                              final prefs = await SharedPreferences.getInstance();
+                                              await prefs.setString('usuario_nome', _nomeController.text);
+                                              await prefs.setString('usuario_email', _emailController.text);
+                                              await prefs.setString('usuario_contato', _contatoController.text);
+                                              await prefs.setString('usuario_senha', _passwordController.text); // Salva a senha também
                                               final msg = await Provider.of<AuthProvider>(context, listen: false).registrarUsuario(usuario);
                                               ScaffoldMessenger.of(context).showSnackBar(
                                                 SnackBar(content: Text(msg), backgroundColor: Colors.green),

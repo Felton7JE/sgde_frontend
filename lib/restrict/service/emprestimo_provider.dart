@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:cetic_sgde_front/restrict/service/emprestimo_service.dart';
+import 'package:cetic_sgde_front/restrict/service/mock_emprestimo_service.dart';
 import 'package:cetic_sgde_front/restrict/models/emprestimo_dto.dart';
 
 class EmprestimoProvider extends ChangeNotifier {
-  final EmprestimoService _service = EmprestimoService();
+  final MockEmprestimoService _service = MockEmprestimoService();
   List<EmprestimoDTO> _emprestimos = [];
   bool _isLoading = false;
   String? _erro;

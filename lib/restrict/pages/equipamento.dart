@@ -357,7 +357,178 @@ class _EquipamentoScreenState extends State<EquipamentoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Implemente o build normalmente aqui
-    return Container(); // Exemplo de retorno válido
+    return Consumer<EquipamentoProvider>(
+      builder: (context, provider, child) {
+        if (provider.isLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (provider.erro != null) {
+          return Center(child: Text('Erro: ${provider.erro}'));
+        }
+        // Contagens por status reais conforme valores existentes no banco
+        final statusList = provider.equipamentos.map((e) => (e.status ?? '').trim().toLowerCase()).toList();
+        final total = provider.equipamentos.length;
+        final recebido = statusList.where((s) => s == 'recebido').length;
+        final emAnalise = statusList.where((s) => s == 'em analise' || s == 'em análise').length;
+        final cadastrado = statusList.where((s) => s == 'cadastrado').length;
+        return Scaffold(
+          backgroundColor: scaffoldBackgroundColor,
+          body: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // Cards
+                Wrap(
+                  spacing: 16.0,
+                  runSpacing: 16.0,
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.width > 600 ? 4 : 1),
+                      child: Cards(
+                        title: 'Total de Equipamentos',
+                        value: total.toString(),
+                        icon: Icons.devices_other,
+                      ),
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.width > 600 ? 4 : 1),
+                      child: Cards(
+                        title: 'Recebido',
+                        value: recebido.toString(),
+                        icon: Icons.inbox,
+                      ),
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.width > 600 ? 4 : 1),
+                      child: Cards(
+                        title: 'Em Análise',
+                        value: emAnalise.toString(),
+                        icon: Icons.search,
+                      ),
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.width > 600 ? 4 : 1),
+                      child: Cards(
+                        title: 'Cadastrado',
+                        value: cadastrado.toString(),
+                        icon: Icons.app_registration,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: CustomTable(
+                      headers: [
+                        TableHeader(text: 'Número de Série', alignment: TextAlign.left),
+                        TableHeader(text: 'Nome', alignment: TextAlign.left),
+                        TableHeader(text: 'Categoria', alignment: TextAlign.center),
+                        TableHeader(text: 'Marca', alignment: TextAlign.center),
+                        TableHeader(text: 'Modelo', alignment: TextAlign.center),
+                        TableHeader(text: 'Status', alignment: TextAlign.center),
+                        TableHeader(text: 'Status 2', alignment: TextAlign.center),
+                        TableHeader(text: 'Ações', alignment: TextAlign.center),
+                      ],
+                      allRows: provider.equipamentos.map((eq) => TableRowData(cells: [
+                        TableCellData(text: eq.numeroSerie.isNotEmpty ? eq.numeroSerie : 'N/A', alignment: TextAlign.left),
+                        TableCellData(text: eq.nome.isNotEmpty ? eq.nome : 'N/A', alignment: TextAlign.left),
+                        TableCellData(text: (eq.categoria?.isNotEmpty ?? false) ? eq.categoria! : 'N/A', alignment: TextAlign.center),
+                        TableCellData(text: (eq.marca?.isNotEmpty ?? false) ? eq.marca! : 'N/A', alignment: TextAlign.center),
+                        TableCellData(text: (eq.modelo?.isNotEmpty ?? false) ? eq.modelo! : 'N/A', alignment: TextAlign.center),
+                        TableCellData(
+                          alignment: TextAlign.center,
+                          widget: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: DropdownButton<String>(
+                              value: () {
+                                final statusBanco = (eq.status ?? '').trim().toLowerCase();
+                                if (statusBanco == 'recebido') return 'RECEBIDO';
+                                if (statusBanco == 'em analise' || statusBanco == 'em análise') return 'EM ANALISE';
+                                if (statusBanco == 'com pendencias') return 'COM PENDENCIAS';
+                                if (statusBanco == 'devolvido') return 'DEVOLVIDO';
+                                if (statusBanco == 'cadastrado') return 'CADASTRADO';
+                                return 'RECEBIDO';
+                              }(),
+                              items: const [
+                                DropdownMenuItem(value: 'RECEBIDO', child: Text('RECEBIDO')),
+                                DropdownMenuItem(value: 'EM ANALISE', child: Text('EM ANALISE')),
+                                DropdownMenuItem(value: 'COM PENDENCIAS', child: Text('COM PENDENCIAS')),
+                                DropdownMenuItem(value: 'DEVOLVIDO', child: Text('DEVOLVIDO')),
+                                DropdownMenuItem(value: 'CADASTRADO', child: Text('CADASTRADO')),
+                              ],
+                              onChanged: (String? newStatus) async {
+                                if (newStatus != null && newStatus != eq.status) {
+                                  final provider = Provider.of<EquipamentoProvider>(context, listen: false);
+                                  final atualizado = Equipamento(
+                                    id: eq.id,
+                                    nome: eq.nome,
+                                    numeroSerie: eq.numeroSerie,
+                                    categoria: eq.categoria,
+                                    marca: eq.marca,
+                                    modelo: eq.modelo,
+                                    descricaoTecnica: eq.descricaoTecnica,
+                                    dataAquisicao: eq.dataAquisicao,
+                                    fornecedor: eq.fornecedor,
+                                    quantidade: eq.quantidade,
+                                    status: newStatus,
+                                    status2: eq.status2,
+                                  );
+                                  await provider.atualizarEquipamento(atualizado);
+                                }
+                              },
+                            ),
+                          ),
+                        ),
+                        TableCellData(text: (eq.status2?.isNotEmpty ?? false) ? eq.status2! : 'N/A', alignment: TextAlign.center),
+                        TableCellData(
+                          widget: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.edit, color: Colors.blue),
+                                tooltip: 'Editar',
+                                onPressed: () => _confirmEdit(context, eq),
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.delete, color: Colors.red),
+                                tooltip: 'Apagar',
+                                onPressed: () => _confirmDelete(context, eq),
+                              ),
+                            ],
+                          ),
+                          alignment: TextAlign.center,
+                        ),
+                      ])).toList(),
+                      rowsPerPage: 5,
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 16.0),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: canvasColor,
+                        foregroundColor: white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
+                        elevation: 4,
+                      ),
+                      onPressed: () => _showForm(),
+                      child: const Text('Adicionar Equipamento', style: TextStyle(fontSize: 16, color: Colors.white)),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }
