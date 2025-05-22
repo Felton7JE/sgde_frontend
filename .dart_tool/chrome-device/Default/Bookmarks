@@ -1,0 +1,62 @@
+{
+   "checksum": "2c7c76dea53ff17d17343f003a44785d",
+   "roots": {
+      "bookmark_bar": {
+         "children": [ {
+            "date_added": "13389092114099228",
+            "date_last_used": "13391100494966076",
+            "guid": "92972bcb-7c78-40bb-816e-3382fd10ea38",
+            "id": "6",
+            "name": "transport and logistics - Google Search",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://www.google.com/search?q=transport+and+logistics&sca_esv=3efceaf071fd96ef&sxsrf=AHTn8zrfIO9OcAMml3tNNDXL2yH47NG27A%3A1744618477090&ei=7cP8Z4yiBa6VhbIP2-mZYA&oq=trasport+&gs_lp=Egxnd3Mtd2l6LXNlcnAiCXRyYXNwb3J0ICoCCAEyBxAjGLECGCcyCxAAGIAEGJECGIoFMgcQABiABBgKMgsQABiABBiRAhiKBTILEAAYgAQYkQIYigUyCxAAGIAEGJECGIoFMg0QLhiABBjRAxjHARgKMgcQABiABBgKMgcQABiABBgKMgcQABiABBgKSIk3UOgGWK4XcAJ4AJABAJgB1gKgAbsWqgEFMi0xLji4AQPIAQD4AQGYAgugAsMXqAIQwgINEAAYsAMYCBgKGA0YHsICCxAAGLADGAgYDRgewgIOEAAYgAQYsAMYhgMYigXCAgsQABiABBiwAxiiBMICBxAjGCcY6gLCAhQQABiABBiRAhi0AhiKBRjqAtgBAcICChAjGIAEGCcYigXCAgQQIxgnwgIKEAAYgAQYQxiKBcICBRAAGIAEwgIFEC4YgATCAgwQABiABBhDGIoFGArCAgoQLhiABBjUAhgKmAMM4gMFEgExIEDxBZUx8A0DUTxviAYBkAYHugYGCAEQARgBkgcHMi4wLjEuOKAH5VSyBwUyLTEuOLgHrxc&sclient=gws-wiz-serp",
+            "visit_count": 2
+         }, {
+            "date_added": "13392313004085303",
+            "date_last_used": "0",
+            "guid": "04e93fba-11ff-4b7a-8d37-08329e153e95",
+            "id": "9",
+            "name": "localhost / 127.0.0.1 / sgde / codigo2fa | phpMyAdmin 5.2.1",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "http://localhost/phpmyadmin/index.php?route=/sql&pos=0&db=sgde&table=codigo2fa",
+            "visit_count": 1
+         } ],
+         "date_added": "13390049358637754",
+         "date_last_used": "0",
+         "date_modified": "13392313004085303",
+         "guid": "0bc5d13f-2cba-5d74-951f-3f233fe6c908",
+         "id": "1",
+         "name": "Favorites bar",
+         "source": "unknown",
+         "type": "folder"
+      },
+      "other": {
+         "children": [  ],
+         "date_added": "13390049358637758",
+         "date_last_used": "0",
+         "date_modified": "0",
+         "guid": "82b081ec-3dd3-529c-8475-ab6c344590dd",
+         "id": "2",
+         "name": "Other favorites",
+         "source": "unknown",
+         "type": "folder"
+      },
+      "synced": {
+         "children": [  ],
+         "date_added": "13390049358637761",
+         "date_last_used": "0",
+         "date_modified": "0",
+         "guid": "4cf2e351-0e85-532b-bb37-df045d8f8d0f",
+         "id": "3",
+         "name": "Mobile favorites",
+         "source": "unknown",
+         "type": "folder"
+      }
+   },
+   "sync_metadata": "CjEKDgiIgQISCIXOWPOWAQAAEgAqGHN3MEFWQVlUQ29yWU84ejJndGxVRmc9PUgDoAYMEo4BCAESiQEKHHl4Si82ZnZrZWNyN2twNUVRekI0dFdMcGRiRT0SJDdjOWU3Y2E5LTY5MTctNTQzNS1hNjMxLWMzN2RkOTBjMzYyZRgAIAAoADDuzoSPsDE49taEj7AxQPbWhI+wMUocYVJDV0xnaEY5YjVJbnFLSUR2dUovanZRa0ZjPVoAZQAAAADCPgJgABKtAQgJEqgBChxYeUdIZVB5Kytkb3FJTWRnL2FrYzZTRDBzZ1U9EiQwNGU5M2ZiYS0xMWZmLTRiN2EtOGQzNy0wODMyOWUxNTNlOTUYACAAKAAwgZ3jmu8yOIyg45rvMkCMoOOa7zJKHG9mQnpJZ2xxRU5CL0tTcDJ4YXBTV1NDTG9Qcz1aHyIdmy8ya29WOE84cWVTcDJKZ2h4RjhXdFl0cmhtST1ld1inXMI+AmAFEqwBCAYSpwEKHHcybVBkVllKTyt2UlY0dVFieThvN2xRMy9uTT0SJDkyOTcyYmNiLTdjNzgtNDBiYi04MTZlLTMzODJmZDEwZWEzOBgAIAAoADD33M3Y6jI4vNz3muMyQPfczdjqMkocTzZtSndjVlpGZG44dE52UFgzSG9YeHpMZVM0PVoeIhw2T09aRkF6ZG1obXVGamVsM2JGcHV2aXVzczg9ZRAw/+TCPgJgBRKOAQgCEokBChxZY1NUb252RVNQd3FDczRMMmNyVmh2NjhMOTg9EiQyYjU5MWY5Ny02MzVjLTVlNTAtYjRlZS00MTE1YWMyMGRlYzcYACAAKAAw786Ej7AxOJDXhI+wMUCQ14SPsDFKHG9QVmtod0JSYlY2NUtDV1IyK0lPTkhXb091OD1aAGUAAAAAwj4CYAASjgEIAxKJAQocbmpnRHU4OGVDcnZYcDg2cEQ3ZkhHY3FGcDg4PRIkNTk5NTdiZTYtMzQyMy01NjQ5LTgwZTItZDVlNjBjNzZlNzJhGAAgACgAMPTOhI+wMTjJ14SPsDFAydeEj7AxShx5ek5CMDFjbjU0QTdjUlUwdVQrL1BnbVR0VW89WgBlAAAAAMI+AmAAMAA4AA==",
+   "version": 1
+}

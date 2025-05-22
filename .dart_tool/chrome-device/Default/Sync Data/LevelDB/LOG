@@ -1,0 +1,28 @@
+2025/05/22-14:24:01.619 2114 Reusing MANIFEST C:\Users\nobody\AppData\Local\Temp\flutter_tools.fc5c341b\flutter_tools_chrome_device.9c67ab9b\Default\Sync Data\LevelDB/MANIFEST-000001
+2025/05/22-14:24:01.625 2114 Recovering log #29
+2025/05/22-14:24:01.630 2114 Reusing old log C:\Users\nobody\AppData\Local\Temp\flutter_tools.fc5c341b\flutter_tools_chrome_device.9c67ab9b\Default\Sync Data\LevelDB/000029.log 
+2025/05/22-14:24:01.631 2114 Delete type=0 #3
+2025/05/22-14:24:01.631 2114 Delete type=0 #4
+2025/05/22-14:24:01.631 2114 Delete type=0 #7
+2025/05/22-14:24:01.631 2114 Delete type=2 #8
+2025/05/22-14:24:01.632 2114 Delete type=0 #10
+2025/05/22-14:24:01.632 2114 Delete type=2 #11
+2025/05/22-14:24:01.632 2114 Delete type=0 #13
+2025/05/22-14:24:01.632 2114 Delete type=2 #14
+2025/05/22-14:24:01.632 2114 Delete type=0 #16
+2025/05/22-14:24:01.633 2114 Delete type=2 #17
+2025/05/22-14:24:01.633 2114 Delete type=0 #19
+2025/05/22-14:24:01.633 2114 Delete type=0 #23
+2025/05/22-14:24:01.633 2114 Delete type=0 #26
+2025/05/22-14:24:10.506 150 Level-0 table #33: started
+2025/05/22-14:24:10.535 150 Level-0 table #33: 81064 bytes OK
+2025/05/22-14:24:10.583 150 Delete type=0 #29
+2025/05/22-14:24:10.584 150 Compacting 4@0 + 1@1 files
+2025/05/22-14:24:10.624 150 Generated table #34@0: 177 keys, 19056 bytes
+2025/05/22-14:24:10.624 150 Compacted 4@0 + 1@1 files => 19056 bytes
+2025/05/22-14:24:10.666 150 compacted to: files[ 0 1 1 0 0 0 0 ]
+2025/05/22-14:24:10.668 150 Delete type=2 #21
+2025/05/22-14:24:10.668 150 Delete type=2 #24
+2025/05/22-14:24:10.668 150 Delete type=2 #27
+2025/05/22-14:24:10.669 150 Delete type=2 #30
+2025/05/22-14:24:10.669 150 Delete type=2 #33
