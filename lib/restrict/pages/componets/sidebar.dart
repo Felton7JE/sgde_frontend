@@ -5,6 +5,7 @@ import 'package:cetic_sgde_front/restrict/pages/emprestimo_equipamento.dart';
 import 'package:cetic_sgde_front/restrict/pages/avaria_equipamento.dart';
 import 'package:cetic_sgde_front/restrict/pages/requisicao_equipamento.dart';
 import 'package:cetic_sgde_front/restrict/pages/dashboard.dart';
+import 'package:cetic_sgde_front/restrict/pages/perfil.dart';
 import 'package:cetic_sgde_front/src/models/models.dart';
 import 'package:cetic_sgde_front/src/src.dart';
 import 'package:flutter/material.dart';
@@ -196,6 +197,13 @@ class ExampleSidebarX extends StatelessWidget {
             _controller.selectIndex(6);
           },
         ),
+        SidebarXItem(
+          icon: Icons.person,
+          label: 'Perfil',
+          onTap: () {
+            _controller.selectIndex(7);
+          },
+        ),
       ],
     );
   }
@@ -231,6 +239,8 @@ class _ScreensExample extends StatelessWidget {
             return const AvariaEquipamentoScreen();
           case 6:
             return const RequisicaoEquipamentoScreen();
+          case 7:
+            return const PerfilPage();
           default:
             return Text(
               pageTitle,
@@ -258,6 +268,8 @@ String _getTitleByIndex(int index) {
       return 'Avaria';
     case 6:
       return 'Requisição';
+    case 7:
+      return 'Perfil';
     default:
       return 'Meu App';
   }
