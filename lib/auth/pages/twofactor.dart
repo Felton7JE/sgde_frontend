@@ -25,6 +25,15 @@ class _TwoFactorPageState extends State<TwoFactorPage> {
 
   Future<void> _verificar2FA() async {
     if (_formKey.currentState!.validate()) {
+      if (_2faController.text.trim() != 'sgde123') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('O código informado está incorreto. Use sgde123.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+        return;
+      }
       setState(() {
         _isLoading = true;
       });
@@ -118,6 +127,12 @@ class _TwoFactorPageState extends State<TwoFactorPage> {
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
+                                        const Text(
+                                          'Digite sgde123 como código de autenticação',
+                                          style: TextStyle(fontSize: 16, color: Colors.black87),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        const SizedBox(height: 16),
                                         TextFormField(
                                           controller: _2faController,
                                           decoration: const InputDecoration(
@@ -176,6 +191,12 @@ class _TwoFactorPageState extends State<TwoFactorPage> {
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
+                                    const Text(
+                                      'Digite 010203 como código de autenticação',
+                                      style: TextStyle(fontSize: 16, color: Colors.black87),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    const SizedBox(height: 16),
                                     TextFormField(
                                       controller: _2faController,
                                       decoration: const InputDecoration(

@@ -30,9 +30,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    // Preenche campos com valores padrão para facilitar testes
-    _emailController.text = 'admin@admin.com';
-    _passwordController.text = '123456';
+ 
   }
 
   @override
@@ -227,7 +225,13 @@ class _LoginPageState extends State<LoginPage> {
                                           : const Text('Entrar', style: TextStyle(color: Colors.white)),
                                     ),
                                   ),
-                                  const SizedBox(height: 16),
+                                  const SizedBox(height: 8),
+                                  const Text(
+                                    'Vá para a tela de cadastro para se cadastrar',
+                                    style: TextStyle(fontSize: 15, color: Colors.black87),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  const SizedBox(height: 8),
                                   Row(
                                     mainAxisAlignment: isWide ? MainAxisAlignment.spaceBetween : MainAxisAlignment.center,
                                     children: [
@@ -394,7 +398,13 @@ class _LoginPageState extends State<LoginPage> {
                                       : const Text('Entrar', style: TextStyle(color: Colors.white)),
                                 ),
                               ),
-                              const SizedBox(height: 16),
+                              const SizedBox(height: 8),
+                              const Text(
+                                'Vá para a tela de cadastro para se cadastrar',
+                                style: TextStyle(fontSize: 15, color: Colors.black87),
+                                textAlign: TextAlign.center,
+                              ),
+                              const SizedBox(height: 8),
                               Row(
                                 mainAxisAlignment: isWide ? MainAxisAlignment.spaceBetween : MainAxisAlignment.center,
                                 children: [
